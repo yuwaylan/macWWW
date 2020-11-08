@@ -27,10 +27,6 @@
     </style>
     
     <script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js">
-    $(document).ready(
-        alert("hii")
-        );
-
         function upload(){
             // var file_data = $('#fileloader').prop('file');
             // var form_data = new FormData();  
@@ -61,7 +57,7 @@
         <div class="mainlayout" >
             <div class="inner">
                 <input type="file" id="fileloader"  name="file" />
-                <button  id="fileuploader" onclick="upload();">開始上傳</button>
+                <input class="submit" type="submit" onclick="upload()" value="Upload" />
             </div>
         </div>
     </body>
