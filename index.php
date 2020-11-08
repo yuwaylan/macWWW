@@ -10,12 +10,17 @@
     <script>
         function chk(){
             var file_data = document.getElementById("upfile");
-            if(file_data.value==""){
-                alert("pick a project file")
+            var file_Ext = file_data.value;
+            file_Ext = file_Ext.substring(file_Ext.lastIndexOf('.'));
+            //alert(file_Ext);
+            if(file_data.value==""|| file_Ext != ".sb3"){
+                alert("pick a .sb3 project file")
                 return;
             }
+            
+
             var file_size = file_data.files[0].size;
-            if(file_size/1024 > 100){
+            if(file_size/1024 < 1000){//10Kb
                 alert(file_size/1024);
             }
             else{
