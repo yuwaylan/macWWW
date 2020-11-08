@@ -7,59 +7,28 @@
     -->
     </head>
 
-    <style>
-        .mainlayout {
-            width: vw 100 ;
-            height: vh 100;
-            text-align: center;
-            background-color: teal;
-        }
-        .inner{
-            margin:0px auto;
-            text-align: center ;
-            width: 80%;
-            height: 10%;
-            background-color: thistle;
-        }
-        input{
-            margin:0px auto;
-        }
-    </style>
-    
-    <script language="javascript" type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js">
-        function upload(){
-            // var file_data = $('#fileloader').prop('file');
-            // var form_data = new FormData();  
-            // form_data.append('file', file_data);  
-            // var maxSize = 100;//100kb
-            // var fileSize = (file_data.size/1024).toFixed(2);
-
-            // if(fileSize < maxSize){
-            //     $.ajax({
-            //         url: 'handle_upload.php',
-            //         cache: false,
-            //         contentType: false,
-            //         processData: false,
-            //         data: form_data,  
-            //         type: 'post',
-            //         success: function(data){
-            //             $('#ajsxboxdhow').html(data);
-            //         }
-            //     });
-            // }else{
-            //     alert('Upload File Should B Smaller Than' + maxSize + 'KB' + " U'r File is "+ fileSize +'KB');
-            // }
-            alert("AAAAA");
+    <script>
+        function chk(){
+            var file_data = document.getElementById("upfile");
+            if(file_data.value==""){
+                alert("pick a project file")
+                return;
+            }
+            var file_size = file_data.files[0].size;
+            if(file_size/1024 > 100){
+                alert(file_size/1024);
+            }
+            else{
+                alert("BBBBB");
+            }
         }
     </script>
 
     <body>
-        <div class="mainlayout" >
-            <div class="inner">
-                <input type="file" id="fileloader"  name="file" />
-                <input class="submit" type="submit" onclick="upload()" value="Upload" />
-            </div>
-        </div>
+        <form action="handle_upload.php" method="post" enctype="multipart/form-data" name="upload">
+            <input type='file' id="upfile" name="upfile" class='upfile' accept=".sb3">
+            <button type="submit" class='btn' onclick="chk()"> Upload</button>
+        </form>
     </body>
   
 </html>

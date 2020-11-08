@@ -1,6 +1,7 @@
 <?php
 
-$file=(empty($_FILES['file']))?"":$_FILES['file']; 
-move_uploaded_file($file['tmp_name'],"proj.zip");
-
+    $proj = $_FILES['upfile'];
+    
+    move_uploaded_file($proj['tmp_name'],"up_load/proj.zip");
+    echo "<script>alert('upload success !! );</script>"
 ?>
