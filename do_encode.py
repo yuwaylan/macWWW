@@ -5,7 +5,7 @@ from pathlib import Path
 file_path = "./up_load/"
 file_list = os.listdir(file_path)
 
-DEBUG =True
+DEBUG =False
 
 
 def _print(printItem):
@@ -22,12 +22,8 @@ for file in file_list :
             _print(file_name +" | "+ file_type)
             base64_data = base64.b64encode(f.read())
             base64_data = base64_data.decode()
-            # base64_data = str(base64_data)[2:-1]
-            # base64_data = base64_data.decode('utf-8')
-            _print(base64_data)
-            '''
-            b'N2ZyB2ZXJzaW9uPSIxLjEiIHdpZHRoPSIyIiBoZWlnaHQ9IjIiIHZpZXdCb3g9Ii0xIC0xIDIgMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgPCEtLSBFeHBvcnRlZCBieSBTY3JhdGNoIC0gaHR0cDovL3NjcmF0Y2gubWl0LmVkdS8gLS0+Cjwvc3Z'
-            '''
+            # _print(base64_data)
+            
             #### Write to html 
             b64_img_html = file_path + file_name + ".html"
             Path(b64_img_html).touch()
