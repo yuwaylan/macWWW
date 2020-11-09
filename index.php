@@ -20,7 +20,7 @@
             
 
             var file_size = file_data.files[0].size;
-            if(file_size/1024 < 1000){//10Kb
+            if(file_size/1024 < 10000){//1M
                 alert(file_size/1024);
             }
             else{
