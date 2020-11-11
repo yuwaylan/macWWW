@@ -42,11 +42,41 @@ for file in file_list :
         input_file = open (proj_json)
         json_data = json.load(input_file)
         # _print(json_data)
+
+opcode = ""        
+parent_block = ""
+next_block = ""
+input_parameter = {
+    "method" : ""
+    
+}
+
+
+block = {
+    "id" : "",
+    "opcode" : opcode ,
+    "parent" : parent_block ,
+    "next" : next_block ,
+    "input" : input_parameter
+}
+
         
-for item1 in json_data:
-    l2 = json.load(item1)
-    print(l2)
-     
-            
+for blocks in json_data['targets'][1]['blocks']:
+    print(blocks)
+    for block_contex in json_data['targets'][1]['blocks'][blocks] :
+        context = str(json_data['targets'][1]['blocks'][blocks][block_contex]) 
+        if  context != '\0' and  'None' not in context and '{' not in context :
+            print("  " + block_contex)
+            print("    " + str(json_data['targets'][1]['blocks'][blocks][block_contex]))
+        elif '{' in context and '{}' not in context :
+            for inner_context in json_data['targets'][1]['blocks'][blocks][block_contex] :
+                print("  " + block_contex)
+                print("    "  + inner_context)
+                for parameters in json_data['targets'][1]['blocks'][blocks][block_contex][inner_context] :
+                    print("      " + str(parameters))
+                    if "[" in str(parameters) and "]" in str(parameters) :
+                        for parameter in parameters :
+                            print("        " + str(parameter))
+    print("\n")
     
 
