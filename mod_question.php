@@ -40,6 +40,7 @@ if(isset($fileData['Q_selection'])&& $fileData['C_Q_selection']>1){
     }
     </style>
     <!---->
+    <a href="index.html"><button>回選單</button></a>
     <center id="main">
 
         <form method="post" action="handle_encode.php">
