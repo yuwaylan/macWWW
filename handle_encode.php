@@ -40,8 +40,11 @@ echo("<br>");echo("<br>");echo("<br>");echo("<br>");
 $jsoncode = json_encode($q_a);
 // echo $jsoncode ;
 
-$file = fopen("question.json","r+"); //開啟檔案
+$file = fopen("question.json","w"); //開啟檔案
 fwrite($file,$jsoncode );
 fclose($file);
+
+header("Location: mod_question.php"); 
+
 
 ?>
