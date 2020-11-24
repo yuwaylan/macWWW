@@ -24,7 +24,18 @@ $json_string = file_get_contents('consent.json');
 $data = json_decode($json_string, true);  
 if(isset($data['content']))
 {
-     $q_a['content'] = str_replace(array('\r\n', '\r', '\n'),'',$data['content']);
+    $tmp = $data['content'];
+    echo $tmp;
+    for($i=0 ;$i<strlen($tmp); $i++){
+        echo ord($data['content'][$i]).'+';
+        if(ord($data['content'][$i]) == 13){
+            $tmp[$i]='#';
+        }
+        if(ord($data['content'][$i]) == 10){
+           $tmp[$i]='$';
+        }
+    }
+     $q_a['content'] = $tmp;
     //  ####################
     ####  找不出為什麼妹辦法把換行取代掉
     ####################

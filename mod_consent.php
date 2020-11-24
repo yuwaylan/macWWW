@@ -12,6 +12,14 @@ if(isset($fileData['title'])){
 }
 if(isset($fileData['content'])){
      $content = $fileData['content'];
+     for($i=0 ;$i<strlen($content); $i++){
+        if(ord($content[$i]) == 35){
+            $content[$i]=chr(20);
+        }
+        if(ord($content[$i]) == 36){
+           $content[$i]=chr(92);
+        }
+    }
 }else{
     $content = "";
 }
@@ -46,7 +54,7 @@ if(isset($fileData['C_Ver'])){
             <br>
             <label>Notice:</label>
             <textarea id="notice" name="notice" rows="2" cols="150"></textarea><br>
-            <input onclick="chk()" type="submit" name="submit" id="submit">
+            <input type="submit" name="submit" id="submit">
         </form>
     </center>
 
@@ -60,12 +68,12 @@ var content = "<?php echo $content ?>";
 var title = "<?php echo $title ?>";
 var notice = "<?php echo $notice ?>";
 
-function chk() {
-    var a = $('#content').val();
+// function chk() {
+//     var a = $('#content').val();
 
-    alert(a);
+//     alert(a);
 
-};
+// };
 
 window.onload = function() {
 
@@ -76,6 +84,6 @@ window.onload = function() {
     $('#content').val(content);
     var aaa = document.getElementById('main');
     aaa.insertAdjacentHTML('afterbegin', '<h2>Version:' + C_Ver + '</h2>');
-    console.log($('#main'));
+
 };
 </script>
