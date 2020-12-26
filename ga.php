@@ -5,7 +5,7 @@
 ##-----  ( FB user prof || IG user prof ) ||  -##
 ##-----  ( 使用者出生日期 && 使用者性別 )     -----##
 #################################################
-
+$can_run = true;
 
 try {
     /**  must contant  **/
@@ -22,26 +22,33 @@ try {
     if(isset($_POST['nop_f']))$nop =$_POST['nop_f'];//no login user profile ==>> JSON
     else $nop = '';
 
+    if($fbp == '' && $igp == '' && $nop == '')
+    {
+        throw new Exception('not login');
+    }
 } catch (Exception $e) {
+    $can_run =false;
+    if (!empty($_SERVER["HTTP_CLIENT_IP"])){
+    $ip = $_SERVER["HTTP_CLIENT_IP"];
+    }elseif(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])){
+        $ip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    }else{
+        $ip = $_SERVER["REMOTE_ADDR"];
+    }
+    echo $ip;
     echo 'Caught exception: ',  $e->getMessage(), "\n";
+    $error_msg = $e->getMessage();
+    $time = date("Y-m-d H:i:s");
+    $file = fopen("add_falure_log.ychu","a"); //開啟檔案
+    $str = 'ERROR : [' . $error_msg . ']@['.$ip.'], Time['.$time.'], \n'.
+    'Parameter{ uid['.$uid.'], ans['.$ans.'], fbp['.$fbp.'], igp['.$igp.'], nop['.$nop.'] }';
+    fwrite($file,$str);
+    fclose($file);
+    
+}// end catch
+
+if($can_run){
+    
 }
-
-
-
-
-$q_a['C_Q_selection']= count($q_a['Q_selection']);
-$q_a['C_Q_scale'] = count($q_a['Q_scale']);
-
-echo("<br>");echo("<br>");echo("<br>");echo("<br>");
-//  print_r($q_a);
-$jsoncode = json_encode($q_a);
-// echo $jsoncode ;
-
-$file = fopen("question.json","w"); //開啟檔案
-fwrite($file,$jsoncode );
-fclose($file);
-
-header("Location: mod_question.php"); 
-
 
 ?>
