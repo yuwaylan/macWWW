@@ -30,5 +30,14 @@ $connect->close();
     
 }
 
+session_start();
+// echo "esddion  :".$_SESSION['page'];
+
+if(isset($_SESSION['page'])&& $_SESSION['page']==1){
+    $_SESSION['page']=2;
+    header("Location: /userinfo.php");
+    
+    // echo $_SESSION['page'];
+}
 
 ?>
