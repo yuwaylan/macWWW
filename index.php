@@ -74,6 +74,17 @@ $_SESSION['page']=1;
     <head>
         <title>大數據人格分析</title>
         <meta charset="utf-8">
+        <meta property="og:title" content="大數據人格分析" />
+        <meta property="og:description" content="大數據人格分析" />
+        <meta property="og:site_name"
+            content=" 本計劃為「設計積極性人格特質手機軟體測驗及整合大數據分析策略」。計劃目的為設計一款手機APP 測量積極性人格特質。計劃主持人為元智大學管理學院張玉萱教授。聯絡人為助理:余程漢1052056@g.yzu.edu.tw. 經費來源為109學..">
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.yzupa2020.url.tw/">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="fb:app_id" content="1290089247998761">
+        <meta property="og:image"
+            content="https://play-lh.googleusercontent.com/vrPWCxYam2hi9a2WP3xt8SuuwjsOzJ4QU5BPJPc1Iw-1eAeI23-b4Ouf9M57kHccAg=w1034-h726-rw">
         <script src="js/jquery.min.js">
         </script>
         <link rel=stylesheet type="text/css" href="css/mycss.css">

@@ -1,9 +1,9 @@
 <?php
 session_start();
-if(isset($_SESSION['page'])&& $_SESSION['page']==2){
+if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
 }else{
-    // header("Location: /"); 
+    header("Location: /"); 
     // echo "session : ". $_SESSION['page'];
 }
 
@@ -105,55 +105,48 @@ if(isset($_SESSION['page'])&& $_SESSION['page']==2){
 
 
     #agree {
-        /* background-image: url("./img/btn_r.png"); */
         background-color: #da8a6f;
     }
     </style>
 
     <script>
-    $(function() {
-        // $('.fb-login-button').setAttribute("data-width", "150%");
+    $(function() {});
+    window.fbAsyncInit = function() {
+        FB.init({
+            appId: '1290089247998761', //release 
+            // appId: '147717396936920', //test
+            cookie: true,
+            xfbml: true,
+            version: 'v9.0'
+        });
 
-        window.fbAsyncInit = function() {
-            FB.init({
-                appId: '1290089247998761',
-                cookie: true,
-                xfbml: true,
-                version: 'v8.0'
-            });
 
-            // FB.AppEvents.logPageView();
+        // FB.getLoginStatus(function(response) {
+        //     statusChangeCallback(response);
+        // });
 
-            FB.getLoginStatus(function(response) {
-                statusChangeCallback(response);
-            });
+    };
 
-        };
-
-        (function(d, s, id) {
-            var js, fjs = d.getElementsByTagName(s)[0];
-            if (d.getElementById(id)) {
-                return;
-            }
-            js = d.createElement(s);
-            js.id = id;
-            js.src = "https://connect.facebook.net/en_US/sdk.js";
-            fjs.parentNode.insertBefore(js, fjs);
-        }(document, 'script', 'facebook-jssdk'));
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) {
+            return;
+        }
+        js = d.createElement(s);
+        js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
 
 
 
-    });
+
 
     function statusChangeCallback(response) {
         if (response.status === 'connected') {
-            // console.log(response);
-            console.log("AAAAA");
-            // console.log(response.authResponse['accessToken']);
-            // FB.api('/me', function(response) {
-            //     console.log(response);
-            //     // console.log('Good to see you, ' + response.name + '.');
-            // });
+            console.log(response);
+
+
 
 
         } else {
@@ -169,20 +162,23 @@ if(isset($_SESSION['page'])&& $_SESSION['page']==2){
     function login() {
         FB.login(function(response) {
             if (response.status === 'connected') {
+                FB.api('/me', "GET", {
+                    fields: 'name,first_name,last_name,email,picture.height(800)'
+                }, function(response) {
+                    // console.log(response);
+                    var ud = "<?php if(isset($_SESSION['ud'])){echo $_SESSION['ud'];} ?>";
+                    var isme = 1;
+                    var etc = encodeURI(JSON.stringify(response), "utf-8");
+                    // etc = UnicodeToUtf8(etc);
+                    console.log(etc);
+                    var send = 'hdfif.php?ud=' + ud + '&isme=' + isme + '&etc=' + etc;
+                    window
+                        .location.assign(send);
+                });
                 // console.log(response);
-                // console.log(response.authResponse['accessToken']);
+
             }
-        }, {
-            scope: 'name,first_name,last_name,email,picture.height(800)'
         });
-    }
-
-    function checkLoginState() {
-        FB.getLoginStatus(function(response) {
-            statusChangeCallback(response);
-        });
-
-
     }
     </script>
 

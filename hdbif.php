@@ -31,6 +31,12 @@ $connect->close();
 }
 
 session_start();
+
+if(isset($_GET["ud"])){
+    $_SESSION['ud'] = $ud;
+}
+
+
 // echo "esddion  :".$_SESSION['page'];
 
 if(isset($_SESSION['page'])&& $_SESSION['page']==1){

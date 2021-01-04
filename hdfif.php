@@ -1,4 +1,5 @@
 <?php 
+header("Content-Type: text/html;charset=utf-8"); 
 //ud etc isme 
 if(isset($_GET["ud"])){
     $ud=$_GET["ud"];
@@ -7,6 +8,9 @@ if(isset($_GET["ud"])){
 }
 $etc=(isset($_GET["etc"])?$_GET["etc"]:"999");
 $isme=(isset($_GET["isme"])?$_GET["isme"]:"999");
+
+
+
 
 $host = 'localhost';
 $user = 'vhost139372';
@@ -29,7 +33,17 @@ if ($status) {
 $connect->close();
 
 
+session_start();
+ 
+if(isset($_SESSION['page'])){
+    $_SESSION['page']=3;
+    echo $etc;
+
+    header("Location: /usrdata.php");
     
+    
+}
+
 }
 
 
