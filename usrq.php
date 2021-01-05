@@ -24,10 +24,6 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         <!-- <meta http-equiv="refresh" content=""> -->
     </head>
     <style>
-    center {
-        background-color: #FFFFFF;
-    }
-
     .question {
         position: absolute;
         top: 22vh;
@@ -48,7 +44,7 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
     }
 
 
-    .question_content {
+    #question_content {
         margin: 2vh 0;
         opacity: 0.7;
         font-size: 5vw;
@@ -60,36 +56,40 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         left: 28vw;
     }
 
-    .selections {
-        width: 45vw;
+
+    .selection {
+
+        margin: 0vh;
+
+        width: 23vw;
         height: 8vw;
-        font-size: 5vw;
+        font-size: 4vw;
         opacity: 0.7;
+        border-radius: 30px;
         background-color: #ffffff;
     }
 
-    .select_item {
-        font-size: 1vw;
-    }
 
 
 
 
     .btns {
         position: absolute;
-        top: 60vh;
+        /* top: 60vh; */
         height: 10vh;
         width: 100vw;
         margin: 0 100;
     }
 
     .btn {
+        float: none;
         height: 8vw;
-        margin-left: 0;
-        left: 37.5vw;
+        margin-top: 6vh;
+        /* margin-left: 0; */
+        /* left: 37.5vw; */
     }
 
-    #btn_continue {
+    #btn_qrevious {
         word-wrap: break-word;
         margin-top: 0.2vh;
         text-align: center;
@@ -107,16 +107,20 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
     $(function() {
         count_total_questions = scale_questions.length + situtaion_questions.length;
         $('#total_q').text(count_total_questions);
-        $('#current_q').text(count_current_question + 1);
+        update();
+        console.log("aa");
 
 
     });
 
     var count_total_questions = 0;
-    var count_current_question = 0;
+    var score = 0;
+    var is_scale = true;
+    // var count_current_question = 0;
     var ansers = [];
     var scale_questions = [
         '我不斷地尋找能夠改善生活的新辦法',
+        // '今天工作上面對到一個很大的挑戰，雖然工作內容是喜歡的，但主管要求很高，常常做不好被罵，讓你產生了離職的念頭，但你才來這個公司不到半年，此時你會',
         '無論在哪兒，我會是那個對環境帶來正向改變的人',
         '最讓我興奮的事是看到我的想法變成現實',
         '如果看到不喜歡的事，我會想辦法去改變它',
@@ -171,18 +175,59 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
     function anser_question(id) {
         // id = "s_1" "c_1"
-        var whitch = id.slice(2, -1);
+        var whitch = id.slice(2);
+        var tpye = id.slice(0, 1);
+        if (is_scale) {
+            score += whitch;
+        }
+        console.log(whitch);
         ansers.push(whitch);
+        set_type(tpye);
+        console.log(ansers);
+        update();
+
     };
+
+    function set_type(type) {
+        if (ansers.length >= scale_questions.length) {
+            is_scale = false;
+        }
+    }
 
 
     function update() {
-        $('#total_q').text(count_total_questions);
-        $('#current_q').text(count_current_question + 1);
+        $('#current_q').text(ansers.length + 1);
+        var questions = (is_scale ? scale_questions : situtaion_questions);
+        var count = (is_scale ? ansers.length : ansers.length - situtaion_questions.length);
+        // console.log(questions[count]);
+        $('#question_content').text(questions[count] + (is_scale ? "" : "..."));
+        make_selections();
     };
 
+    function make_selections() {
+        if (is_scale) {
+            var cont = '<div class="selection"><h2 class="text" id="s_1">10分</h2></div>';
+            $('.selections').html("");
+            for (var i = 1; i <= 7; i++) {
+                $('.selections').append(
+                    '<div class="selection"><h2 class="text" onclick="anser_question(this.id)" id="s_' + i + '">' +
+                    i +
+                    '分</h2></div>');
+            }
+
+
+        } else {
+
+        }
+    }
+
     function previous() {
-        count_current_question -= 1;
+        if (ansers.length >= 1) {
+            ansers.pop();
+        } else {
+            alert("這是第一題");
+        }
+        update();
     };
     </script>
 
@@ -191,23 +236,23 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         <div class="mainbody">
             <div class="header">
                 <div class="title">
-                    <h2 id="title_content">問題:<a id="current_q"></a>/<a id="total_q"></a></h2>
+                    <h2 id="title_content">問題：<a id="current_q"></a>/<a id="total_q"></a></h2>
                 </div>
             </div>
             <div class="footer"></div>
             <div class="question">
                 <center>
-                    <h3 class="question_content"></h3>
+                    <h3 id="question_content"></h3>
+                    <div class="selections">
+                        <!-- <div class="selection">
+                            <h2 class="text" id="s_1">10分</h2>
+                        </div> -->
+                    </div>
+                    <div class="btn" id="agree" onclick="previous()">
+                        <h2 class="text" id="btn_qrevious">上一題</h2>
+                    </div>
                 </center>
             </div>
-            <form id="fom" action="" method="POST">
-                <div class="btns">
-                    <div class="btn" id="agree" onclick="previous()">
-                        <h2 class="text" id="btn_continue">上一題</h2>
-                    </div>
-                </div>
-            </form>
-
         </div>
     </body>
 
