@@ -182,13 +182,12 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         }
         console.log(whitch);
         ansers.push(whitch);
-        set_type(tpye);
         console.log(ansers);
         update();
 
     };
 
-    function set_type(type) {
+    function set_type() {
         if (ansers.length >= scale_questions.length) {
             is_scale = false;
         }
@@ -196,10 +195,11 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
 
     function update() {
+        set_type();
         $('#current_q').text(ansers.length + 1);
         var questions = (is_scale ? scale_questions : situtaion_questions);
-        var count = (is_scale ? ansers.length : ansers.length - situtaion_questions.length);
-        // console.log(questions[count]);
+        var count = (is_scale ? ansers.length : ansers.length - scale_questions.length);
+        console.log(questions[0]);
         $('#question_content').text(questions[count] + (is_scale ? "" : "..."));
         make_selections();
     };
@@ -215,15 +215,19 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
                     '分</h2></div>');
             }
 
-
         } else {
 
         }
     }
 
+    function finish() {
+
+    }
+
     function previous() {
         if (ansers.length >= 1) {
             ansers.pop();
+            console.log(ansers);
         } else {
             alert("這是第一題");
         }
