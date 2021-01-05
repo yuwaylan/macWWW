@@ -24,51 +24,20 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         <!-- <meta http-equiv="refresh" content=""> -->
     </head>
     <style>
-    /* Removes the clear button from date inputs */
-    input[type="date"]::-webkit-clear-button {
-        display: none;
-    }
-
-    /* Removes the spin button */
-    input[type="date"]::-webkit-inner-spin-button {
-        display: none;
-    }
-
-    /* Always display the drop down caret */
-    input[type="date"]::-webkit-calendar-picker-indicator {
-        color: #2c3e50;
-    }
-
-    /* A few custom styles for date inputs */
-    input[type="date"] {
-        appearance: none;
-        -webkit-appearance: none;
-        color: #95a5a6;
-        font-size: 5vw;
-        border: 1px solid #ecf0f1;
-        background: #ecf0f1;
-        padding: 5px;
-        display: inline-block !important;
-        visibility: visible !important;
-    }
-
-    input[type="date"],
-    focus {
-        color: #95a5a6;
-        box-shadow: none;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-    }
-
     center {
-        position: absolute;
-        top: 35vh;
-        left: 28vw;
+        background-color: #FFFFFF;
     }
 
-    /* 
-        -----------------------------------------------------------------------        
-    */
+    .question {
+        position: absolute;
+        top: 22vh;
+        left: 10vw;
+
+        width: 80vw;
+        height: 40vw;
+
+        background-color: #FFFF00;
+    }
 
 
     .footer {
@@ -80,12 +49,8 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
 
     .explan {
-        position: absolute;
-        margin: 0;
-        margin-top: -8vw;
+        margin: 2vh 0;
         opacity: 0.7;
-        /* top: 28vh; */
-        /* left: 28vw; */
         font-size: 5vw;
     }
 
@@ -172,21 +137,23 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         <div class="mainbody">
             <div class="header">
                 <div class="title">
-                    <h2 id="title_content">基本資料調查</h2>
+                    <h2 id="title_content">問題:</h2>
                 </div>
             </div>
             <div class="footer"></div>
-
-            <center>
-                <h3 class="explan">出生日期</h3><input id="birth" value="1998-01-26" type="date" required="required">
-            </center>
+            <div class="question">
+                <center>
+                    <h3 class="explan">出生日期</h3>
+                </center>
+            </div>
             <form id="fom" action="" method="POST">
 
                 <div class="gender">
                     <h3 class="explan">性別 </h3>
                     <div class="selections">
                         <select class="selections" name="g" id="gender">
-                            <option class="select_item" value="male">男生</option>
+                            <option class="select_item" value="male">
+                            </option>
                             <option class="select_item" value="female">女生</option>
                             <option class="select_item" value="other">其他</option>
                         </select>
@@ -196,7 +163,7 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
                 <div class="btns">
                     <div class="btn" id="agree" onclick="chk()">
-                        <h2 class="text" id="btn_continue">送出</h2>
+                        <h2 class="text" id="btn_continue">上一題</h2>
                     </div>
                 </div>
             </form>

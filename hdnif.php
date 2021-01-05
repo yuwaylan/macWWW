@@ -26,7 +26,16 @@ if ($status) {
 
 $connect->close();
 
+    session_start();
     
+    if(isset($_SESSION['page'])&&isset($_SESSION['ud'])){
+        $_SESSION['page']=4;
+        echo $etc;
+
+        header("Location: /usrq.php");
+        
+        
+    }
 }
 
 
