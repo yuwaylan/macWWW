@@ -1,8 +1,28 @@
 <?php
 session_start();
-
-
-
+if(isset($_SESSION['ud'])){
+if(isset($_SESSION['score'])){
+     header("Location: /feback.php"); 
+}
+else if(isset($_SESSION['page'])){
+    switch ($_SESSION['page']){
+        case 1:
+            // header("Location: /userinfo.php"); 
+        break;
+        case 2:
+            header("Location: /usrdata.php"); 
+        break;
+        case 3:
+             header("Location: /usrq.php"); 
+        break;
+        case 4:
+            header("Location: /feback.php"); 
+        break;
+        default:
+        break;
+    }
+}
+}
 function guid(){
     if (function_exists('com_create_guid')){
         return com_create_guid();

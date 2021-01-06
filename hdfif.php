@@ -35,7 +35,7 @@ $connect->close();
 
 session_start();
  
-if(isset($_SESSION['page'])){
+if(isset($_SESSION['ud'])){
     $_SESSION['page']=3;
     echo $etc;
 

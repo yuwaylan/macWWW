@@ -1,10 +1,8 @@
 <?php
 session_start();
-if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
-}else{
-    // header("Location: /"); 
-    
+if(isset($_SESSION['score'])){
+     header("Location: /feback.php"); 
 }
 
 ?>

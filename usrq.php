@@ -1,12 +1,9 @@
 <?php
 session_start();
-if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
 
-}else{
-    // header("Location: /"); 
-    
-}
-
+if(isset($_SESSION['score'])){
+     header("Location: /feback.php"); 
+} 
 ?>
 
 
@@ -48,6 +45,7 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         margin: 2vh 0;
         opacity: 0.7;
         font-size: 5vw;
+        text-align: left;
     }
 
     .gender {
@@ -60,7 +58,6 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
     .selection {
 
         margin: 0vh;
-
         width: 23vw;
         height: 8vw;
         font-size: 4vw;
@@ -69,8 +66,28 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
         background-color: #ffffff;
     }
 
+    .selection_sit {
 
+        margin: 0vh;
+        width: 80vw;
+        /* height: 23vw; */
+        opacity: 0.7;
+        border-radius: 30px;
+        background-color: #ffffff;
+    }
 
+    .selection_sit>h2 {
+
+        margin: 3vh;
+        font-size: 4vw;
+        text-align: left;
+    }
+
+    #lab {
+        font-size: 4vw;
+        font-weight: 400;
+        /* margin-bottom: 0; */
+    }
 
 
     .btns {
@@ -107,12 +124,16 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
     $(function() {
         count_total_questions = scale_questions.length + situtaion_questions.length;
         $('#total_q').text(count_total_questions);
+        start = Date.now();
+        times.push(start);
         update();
-        console.log("aa");
+
 
 
     });
-
+    let start = 0;
+    let paus = 0;
+    var times = [];
     var count_total_questions = 0;
     var score = 0;
     var is_scale = true;
@@ -174,60 +195,102 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
     };
 
     function anser_question(id) {
-        // id = "s_1" "c_1"
-        var whitch = id.slice(2);
-        var tpye = id.slice(0, 1);
-        if (is_scale) {
-            score += whitch;
+        if (ansers.length < count_total_questions - 1) {
+            // id = "s_1" "c_1"
+            var whitch = id.slice(2);
+            var tpye = id.slice(0, 1);
+            ansers.push(whitch);
+            paus = Date.now() - start;
+            times.push(paus);
+            console.log(paus);
+            update();
+        } else {
+            var whitch = id.slice(2);
+            var tpye = id.slice(0, 1);
+            ansers.push(whitch);
+            paus = Date.now() - start;
+            times.push(paus);
+            console.log(paus);
+            finish();
         }
-        console.log(whitch);
-        ansers.push(whitch);
-        console.log(ansers);
-        update();
+
 
     };
 
-    function set_type() {
-        if (ansers.length >= scale_questions.length) {
-            is_scale = false;
-        }
-    }
+
 
 
     function update() {
-        set_type();
+        start = Date.now();
+        if (ansers.length >= scale_questions.length) {
+            is_scale = false;
+        } else {
+            is_scale = true;
+        }
         $('#current_q').text(ansers.length + 1);
         var questions = (is_scale ? scale_questions : situtaion_questions);
         var count = (is_scale ? ansers.length : ansers.length - scale_questions.length);
-        console.log(questions[0]);
+
+        console.log(ansers);
+        // console.log(ansers.length + "/" + count_total_questions);
+
+        // console.log(questions[0]);
+        // console.log(count);
         $('#question_content').text(questions[count] + (is_scale ? "" : "..."));
         make_selections();
     };
 
     function make_selections() {
+        $('.selections').html("");
+        $('#lab').html("");
         if (is_scale) {
-            var cont = '<div class="selection"><h2 class="text" id="s_1">10分</h2></div>';
-            $('.selections').html("");
             for (var i = 1; i <= 7; i++) {
                 $('.selections').append(
                     '<div class="selection"><h2 class="text" onclick="anser_question(this.id)" id="s_' + i + '">' +
                     i +
                     '分</h2></div>');
             }
-
+            $('#lab').html("1分為非常不認同，7分為非常認同");
         } else {
-
+            var count = (is_scale ? ansers.length : ansers.length - scale_questions.length);
+            for (var i = 0; i < 3; i++) {
+                $('.selections').append(
+                    '<div class="selection_sit"><h2  class="text" onclick="anser_question(this.id)" id="c_' +
+                    i +
+                    '">' +
+                    selections_situtaion[count][i] +
+                    '</h2></div>');
+            }
         }
     }
 
     function finish() {
+        for (var i = 0; i < scale_questions.length; i++) {
+            score += parseInt(ansers[i]);
+        }
+        var date = new Date(times[0]);
+        var tm = date.toDateString();
+        var tt = date.toTimeString();
+        var tim = tm + "-" + tt;
+        times[0] = tim;
+        // console.log(tim);
+        // console.log(score);
+        var ud = "<?php if(isset($_SESSION['ud'])){echo $_SESSION['ud'];} ?>";
+        //ud tim and
+        var time = times.toString();
+        var and = ansers.toString();
+        score /= 10;
+        var send = send = "hdget.php/?ud=" + ud + "&tim=" + time + "&and=" + and + "&sco=" + score;
+        // console.log(send);
+        window.location.replace(send);
 
     }
 
     function previous() {
         if (ansers.length >= 1) {
             ansers.pop();
-            console.log(ansers);
+            times.pop();
+            console.log(times);
         } else {
             alert("這是第一題");
         }
@@ -247,12 +310,12 @@ if(isset($_SESSION['ud'])&&isset($_SESSION['page'])){
             <div class="question">
                 <center>
                     <h3 id="question_content"></h3>
+                    <p id="lab"></p>
                     <div class="selections">
-                        <!-- <div class="selection">
-                            <h2 class="text" id="s_1">10分</h2>
-                        </div> -->
                     </div>
+
                     <div class="btn" id="agree" onclick="previous()">
+
                         <h2 class="text" id="btn_qrevious">上一題</h2>
                     </div>
                 </center>

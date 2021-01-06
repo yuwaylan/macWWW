@@ -3,6 +3,9 @@
 $ud=(isset($_GET["ud"])?$_GET["ud"]:"");
 $tim=(isset($_GET["tim"])?$_GET["tim"]:"");
 $and=(isset($_GET["and"])?$_GET["and"]:"");
+if(isset($_GET['sco'])){
+            $_SESSION['score'] = $_GET['sco'];
+}
 
 
 $host = 'localhost';
@@ -41,7 +44,13 @@ if($success){
 }
 $connect->close();
 
+    session_start();
     
+    if(isset($_SESSION['ud'])){
+        $_SESSION['page']=5;
+        
+        header("Location: /feback.php");   
+    }
 }
 
 

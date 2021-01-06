@@ -34,6 +34,12 @@ session_start();
 
 if(isset($_GET["ud"])){
     $_SESSION['ud'] = $ud;
+}else{
+    $t = time();
+    $i = (string)date('YmdHis',$t);
+    $r =  (string)rand();
+    $timeid= $i.$r;
+    $_SESSION['ud'] = $timeid;
 }
 
 
