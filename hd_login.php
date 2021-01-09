@@ -14,8 +14,9 @@ if($ans =="")
         session_start();
         $_SESSION['isme']=true;
     }else{
+        $_SESSION['isme']=false;
         echo "<script>alert('密碼錯誤')</script>";
-        header("Location: index.html"); 
+        header("Location: _index.php"); 
     }
 
 }
