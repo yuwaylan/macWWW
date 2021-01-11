@@ -1,12 +1,12 @@
 <?php 
 
-if(isset($_SESSION['isme'])){
-    if(!$_SESSION['isme']){
-        header("Location: _index.html"); 
-    }
-}else{
-    header("Location: index.php"); 
-}
+// if(isset($_SESSION['isme'])){
+//     if(!$_SESSION['isme']){
+//         header("Location: _index.php"); 
+//     }
+// }else{
+//     header("Location: index.php"); 
+// }
 //有登入過就跳輸入密碼葉面，不然就跳首頁
 
 if(!empty($_SERVER['HTTP_CLIENT_IP'])){
@@ -18,10 +18,10 @@ if(!empty($_SERVER['HTTP_CLIENT_IP'])){
 }
 $argip = explode(".", strval($regip));
 if($argip[0].$argip[1] != "140138"){
-    echo "alert( login ip =".$regip.",".$argip[0].".".$argip[1]." invaled ip 請洽開發者 !)";
+    echo "<script>alert(' login ip =".$regip.",".$argip[0].".".$argip[1]." invaled ip 請洽開發者 !')</script>";
     header("Location: _index.php"); 
 }else{
-     echo "alert( login ip =".$regip.",".$argip[0].".".$argip[1]." valed ip 登入成功 !)";
+     echo "<script>alert(' login ip =".$regip.",".$argip[0].".".$argip[1]." valed ip 登入成功 !')</script>";
 }
 
 $today = getdate();
@@ -37,15 +37,14 @@ $file = fopen($today."-OutPut.txt","w+"); //開啟檔案
 fwrite($file,$output);
 fclose($file);
 
-
-$servername = "localhost"; //伺服器連線名
+$host = 'localhost';
 $user = 'vhost139372';
-$password = 'YZUpa@zb';
-$dbname = 'vhost139372';
-$conn = new mysqli($servername, $username, $password, $dbname); //連線資料庫
+$passwd = 'YZUpa@zb';
+$database = 'vhost139372';
+$connect = new mysqli($host, $user, $passwd, $database);
 
 
-if (!$conn) {
+if (!$connect) {
 	die("連線失敗：" . mysqli_connect_error()); //連線資料庫失敗則殺死程序
 }else{
     echo "<table border='2' bordercolor='#66ccff'>"; 
@@ -55,7 +54,7 @@ if (!$conn) {
 
     //uid ans
     $sql_uid_ans = "SELECT * FROM `u_ans` WHERE 1"; 
-    $result_uid_ans = mysqli_query($conn, $sql_uid_ans);
+    $result_uid_ans = mysqli_query($connect, $sql_uid_ans);
 
     
     if (mysqli_num_rows($result_uid_ans) > 0) { 
@@ -78,26 +77,26 @@ if (!$conn) {
 
                 //uid dev_name
                 $sql_basic_info = "SELECT `dev_name` FROM `u_basic_i` WHERE 'uid' == '$uid'"; 
-                $result_basic_info = mysqli_query($conn, $sql_basic_info);
+                $result_basic_info = mysqli_query($connect, $sql_basic_info);
                 $oss = mysqli_fetch_assoc($result_basic_info);
                 $os = $oss['dev_name'];
 
                 #      (birthday)  (gender)
                 //uid isnoaccount  no_gend  
                 $sql_usr_info = "SELECT 'isnoaccount' , 'no_gend' FROM `no_info` WHERE 'uid' == '$uid'"; 
-                $result_usr_info = mysqli_query($conn, $sql_usr_info);
+                $result_usr_info = mysqli_query($connect, $sql_usr_info);
                 $usr_info = mysqli_fetch_assoc($result_usr_info);
                 $gender = $usr_info['no_gend'];
                 $birth = $usr_info['isnoaccount'];
 
                 //uid t
                 $sql_t = "SELECT 't' FROM `u_t` WHERE 'uid' == '$uid'"; 
-                $result_t = mysqli_query($conn, $sql_t);
+                $result_t = mysqli_query($connect, $sql_t);
                 $time = $result_t['t'];
 
                 //uid etc
                 $sql_f = "SELECT `etc` FROM `fb_info` WHERE 'uid' == '$uid'"; 
-                $result_f = mysqli_query($conn, $sql_f);
+                $result_f = mysqli_query($connect, $sql_f);
                 if (mysqli_num_rows($result_f) > 0){
                     $fbinfo = $result_f['etc'];
                 }else{
@@ -127,7 +126,7 @@ if (!$conn) {
         echo "0 結果";
     }
     echo "</table>";
-    mysqli_close($conn); //關閉資料庫
+    mysqli_close($connect); //關閉資料庫
 }
 
 
