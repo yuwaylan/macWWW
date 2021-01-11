@@ -9,6 +9,33 @@ if(isset($_SESSION['isme'])){
 }
 //有登入過就跳輸入密碼葉面，不然就跳首頁
 
+if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+   $regip = $_SERVER['HTTP_CLIENT_IP'];
+}else if(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+   $regip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+}else{
+   $regip= $_SERVER['REMOTE_ADDR'];
+}
+$argip = explode(".", strval($regip));
+if($argip[0].$argip[1] != "140138"){
+    echo "alert( login ip =".$regip.",".$argip[0].".".$argip[1]." invaled ip 請洽開發者 !)";
+    header("Location: _index.php"); 
+}else{
+     echo "alert( login ip =".$regip.",".$argip[0].".".$argip[1]." valed ip 登入成功 !)";
+}
+
+$today = getdate();
+date("Y/m/d H:i");  //日期格式化
+$year=$today["year"]; //年 
+$month=$today["mon"]; //月
+$day=$today["mday"];  //日
+if(strlen($month)=='1')$month='0'.$month;
+if(strlen($day)=='1')$day='0'.$day;
+$today=$year."-".$month."-".$day;
+$output = "";
+$file = fopen($today."-OutPut.txt","w+"); //開啟檔案
+fwrite($file,$output);
+fclose($file);
 
 
 $servername = "localhost"; //伺服器連線名
@@ -33,6 +60,8 @@ if (!$conn) {
     
     if (mysqli_num_rows($result_uid_ans) > 0) { 
         
+        $output = "";
+
         while ($rows_ans = mysqli_fetch_assoc($result_uid_ans)){
             $is_print =false;
             $uid = "";
@@ -82,9 +111,17 @@ if (!$conn) {
                 echo "<tr>";
                 echo "<td>" . $uid. "</td><td>" . $birth . "</td><td>" . $gender . "</td><td>" . $ans . "</td><td>" . $time . "</td><td>" . $os . "</td><td>" . $fbinfo . "</td>";
                 echo "</tr>";
+                $output .= "[".$uid."//".$birth."//".$gender."//".$ans."//".$time."//".$os."//".$fbinfo."]\n";
             }
 
-        }   
+        }
+        
+        
+        
+        $file = fopen($today."-OutPut.txt","w+"); //開啟檔案
+        fwrite($file,$output);
+        fclose($file);
+  
 
     } else {
         echo "0 結果";
